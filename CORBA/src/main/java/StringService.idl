@@ -1,0 +1,4 @@
+interface StringService {
+    string reverseString(in string str);
+    string convertToUppercase(in string str);
+};

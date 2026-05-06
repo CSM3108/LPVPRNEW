@@ -1,0 +1,50 @@
+MPI (Message Passing Interface)
+
+===============================================
+
+MPI is a message-passing standard used for communication between multiple processes in distributed systems. Each process has a unique rank and communicates using operations like send, receive, scatter, and gather.
+
+1. Multiple processes start
+2. Each process gets a unique rank (ID)
+3. Processes communicate using:
+- Send : One process sends data to another
+- Receive : One process receives data
+- Scatter : One process receives data
+- Gather : Divide data → distribute to all processes
+4. Each process computes independently
+5. Results are combined
+
+
+Code :
+1. MPI.Init() : starts the mpi env, creates processes
+2. rank = MPI.COMM_WORLD.Rank(), size = MPI.COMM_WORLD.Size() : gets rank (id) of each process and total number of processes (-np)
+3. MPI.Finalize() : cleans up resources, terminates processes
+4. Collective Functions :
+- Scatter(array_to_be_sent, send_offset, elements_per_process, data_type (MPI.INT), recv_array_of_non_root_process, recv_offset, size, data_type, root_rank)
+- Gather(data_sent_by_non_root, offset, size_sent, type, array_used_at_root_for_rev, offset, size, type, root_rank)
+
+
+Commands for running :
+
+1. javac -cp %MPJ_HOME%\lib\mpj.jar Main.java
+Compiles, using mpj.jar, jar should be added to the module
+path and MPJ_HOME should be present
+-cp tells the classpath for required external libraries
+
+javac -cp .:$MPJ_HOME/lib/mpj.jar Main.java
+mpjrun.sh -np 4 Main
+Running MPI on Linux, use mpjrun.bat on windows and mpjrun.sh on Linux
+MPI program jar aala tar pahile library installed aahe ki nahi te check karaycha, hi command takun : 
+Verify installation : 
+> mpjrun.sh
+
+2. mpjrun.bat -np 4 Main
+creates 4 processes executing Main class
+
+
+Notes : 
+- Each processes executes the whole main class, they are parallel processes.
+- The Scatter and Gather operations are blocking, they are only executed once every process reaches it. 
+- All processes participate in Scatter and Gather, but the role of root and others is different
+- Only root sends data in Scatter and others receive and vice versa for Gather.
+- Main process is root process and others are worker processes

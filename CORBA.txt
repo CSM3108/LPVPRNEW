@@ -1,0 +1,119 @@
+CORBA
+
+============================================
+
+Create structure
+
+src.main.java
+- StringService.idl
+- StringServiceImpl.java
+- Server.java
+- Client.java
+
+Run these commands in src/main/java path
+
+1. Compile the .idl file : idlj -fall StringService.idl
+This will generate .java files :
+- _StringServiceStub : The client-side proxy that represents the remote server object
+- StringService (I) : the contract, this extends StringServiceOperations
+- StringServiceHelper : Utility Methods for server side functions (standards)
+- StringServiceHolder : Holder classes wrap the value into wrapper (for pass by reference) to allow modification by the called method
+- StringServiceOperations (I) : actual interface used by server side
+- StringServicePOA : The server-side skeleton that handles network communication (Portable Object Adapter)
+
+-f : generate client side files
+-a : generate server side files
+-ll : generate linking files for both
+Without -fall only stub file will be generated
+
+2. javac *.java
+Compile all java files
+
+2. orbd -ORBInitialPort 1050 -ORBInitialHost localhost
+Runs the naming service - Object Request Broker Daemon
+Maps human-readable service names to actual object references
+
+3. java Server -ORBInitialPort 1050 -ORBInitialHost localhost
+running the compiled Server class and passing args
+
+4. 3. java Client -ORBInitialPort 1050 -ORBInitialHost localhost
+running the compiled Server Client and passing args
+
+Dont need to define a port for Server, the CORBA automcatically assigns available the port to server
+
+
+
+Server.java 
+- ORB orb creates Object Request Broker using args, ORB manages network communication, marshalling-unmarshalling
+- resolve_initial_references("RootPOA") asks ORB for the Root POA (RootPOA is a standard constant string for ORB)
+- POAHelper.narrow() converts generic CORBA object to specific POA type
+- POA manages lifecycle of servant objects
+- rootPOA.servant_to_reference(servant) converts servant plain java object to CORBA reference, assigns a unique ID to servant and binds server to a port
+- StringServiceHelper.narrow(ref) converts ref to StringService interface
+- resolve_initial_references("NameService") asks ORB for naming service object
+- NamingContextExtHelper.narrow() converts CORBA Object to NamingContextExt object
+- ncRef.rebind(ncRef.to_name("StringService"), href) register our object with a name in the Naming Context
+- rootPOA.the_POAManager().activate() POA is not HOLDING state --> ACTIVE state
+- orb.run() runs the ORB event loop
+
+
+
+Your Client Code 
+    ↓ (calls reverseString)
+_StringServiceStub (stub) 
+    ↓ (marshals data, sends network)
+[INTERNET/Network]
+    ↓ (reaches server)
+StringServicePOA (skeleton on server)
+    ↓ (unmarshals, calls your code)
+Your StringServiceImpl (actual work)
+    ↓ (returns result back through skeleton)
+[Network back to client]
+    ↓
+_StringServiceStub returns to your code
+
+
+
+CORBA = Common Object Request Broker Architecture
+A standard that allows software components written in different programming languages and running on different machines to communicate with each other.
+
+Components:
+
+1. ORB (Object Request Broker)
+The "bus" that carries requests between clients and servers
+
+2. IDL (Interface Definition Language)
+Language-neutral way to describe what methods an object provides
+
+3. Stubs & Skeletons
+Code that handles networking details automatically
+
+4. Naming Service
+Directory that maps names to object locations
+
+
+┌─────────────────────────────────────────────────────────────┐
+│                        CLIENT SIDE                          │
+├─────────────────────────────────────────────────────────────┤
+│  Application Code                                           │
+│        ↓                                                    │
+│  Client Stub (generated from IDL)                          │
+│  - Packages parameters                                      │
+│  - Sends over network                                       │
+│  - Waits for response                                       │
+└─────────────────────────────────────────────────────────────┘
+                          ↓↑
+                    ┌─────────────┐
+                    │    ORB      │  (Communication Bus)
+                    └─────────────┘
+                          ↓↑
+┌─────────────────────────────────────────────────────────────┐
+│                        SERVER SIDE                          │
+├─────────────────────────────────────────────────────────────┤
+│  Server Skeleton (generated from IDL)                      │
+│  - Receives network requests                               │
+│  - Unpacks parameters                                      │
+│  - Calls actual implementation                             │
+│        ↓                                                    │
+│  Application Implementation (YOUR CODE)                    │
+└─────────────────────────────────────────────────────────────┘
