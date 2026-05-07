@@ -1,0 +1,150 @@
+RingElection
+
+Ring Election Algorithm Viva Questions with Answers
+1. What is Ring Election Algorithm?
+Answer:
+Ring Election Algorithm is a distributed leader election algorithm where processes are arranged logically in a ring and election messages circulate through the ring to elect a coordinator.
+The process with the highest process ID becomes the coordinator.
+Complete Step-by-Step Working of Ring Election Algorithm
+
+Step 1 — Arrange Processes in Ring
+Processes are connected logically in circular form.
+Example:
+P1 → P2 → P3 → P4 → P5 → P1
+Each process knows only its next neighbor.
+
+Step 2 — Coordinator Failure
+Suppose:
+P5 crashes
+A process detects coordinator failure.
+Example:
+P2 starts election
+
+Step 3 — Election Message Circulates
+P2 sends election message to next process.
+Message travels:
+P2 → P3 → P4 → P5 → P1 → P2
+Every alive process:
+receives election message,
+appends/checks its process ID.
+
+Step 4 — Highest ID Selected
+After message completes one full ring traversal:
+Highest Process ID
+is selected as coordinator.
+Example:
+P4 becomes coordinator
+because P5 crashed.
+
+Step 5 — Coordinator Message Circulates
+New coordinator sends coordinator announcement message around ring.
+Coordinator = P4
+All processes update coordinator information.
+Final Flow
+Coordinator crashes
+        ↓
+A process initiates election
+        ↓
+Election message circulates in ring
+        ↓
+Highest process ID identified
+        ↓
+Coordinator message circulates
+        ↓
+New leader elected
+
+2. What is the main objective of Ring Election Algorithm?
+Answer:
+Elect a Coordinator in Distributed Systems
+when the current coordinator fails.
+
+3. Why is logical ring structure used?
+Answer:
+Logical ring structure ensures orderly message passing among processes.
+
+4. How are processes connected in Ring Election Algorithm?
+Answer:
+Processes are connected logically in circular sequence where each process knows its next neighbor.
+
+5. Which process becomes coordinator?
+Answer:
+Highest Alive Process ID
+becomes coordinator.
+
+6. What is election message?
+Answer:
+Election message circulates around the ring carrying process IDs for coordinator selection.
+
+7. What is coordinator message?
+Answer:
+Coordinator message announces the newly elected leader to all processes.
+
+8. Who starts the election?
+Answer:
+The process that detects coordinator failure starts the election.
+
+9. What is the time complexity of Ring Election Algorithm?
+Answer:
+O(n)
+because election message travels once around the ring.
+
+10. Why is Ring Election more efficient than Bully Algorithm?
+Answer:
+Because fewer messages are exchanged compared to Bully Algorithm.
+
+11. What are the advantages of Ring Election Algorithm?
+Answer:
+Fewer message exchanges
+Fair communication
+Simple ring structure
+Better message efficiency
+
+12. What are the disadvantages of Ring Election Algorithm?
+Answer:
+Slower in large rings
+Ring failure affects communication
+Election delay if many processes exist
+
+13. What happens if one process in the ring fails?
+Answer:
+Ring communication may break unless fault-handling mechanisms are used.
+
+14. Is Ring Election centralized or decentralized?
+Answer:
+The election process is decentralized because no central controller exists.
+
+15. Why does message circulate through entire ring?
+Answer:
+To ensure every process participates and highest process ID is identified.
+
+16. What topology is used in Ring Election Algorithm?
+Answer:
+Logical ring topology.
+
+17. Can multiple coordinators exist simultaneously?
+Answer:
+No.
+Only one highest alive process becomes coordinator.
+
+18. Difference between Bully Algorithm and Ring Election Algorithm?
+Bully Algorithm	Ring Election Algorithm
+Uses direct communication	Uses ring communication
+Higher message overhead	Lower message overhead
+O(n²)	O(n)
+Faster election	More organized communication
+
+19. Why is coordinator important in distributed systems?
+Answer:
+Coordinator manages:
+synchronization,
+resource allocation,
+communication,
+distributed activities.
+
+20. Applications of Ring Election Algorithm?
+Answer:
+Distributed operating systems
+Token ring networks
+Cluster systems
+Distributed databases
+Fault-tolerant systems

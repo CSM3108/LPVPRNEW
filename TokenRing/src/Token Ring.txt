@@ -1,0 +1,207 @@
+Token Ring
+
+Token Ring Mutual Exclusion — Complete Working
+
+Objective
+The objective of Token Ring Mutual Exclusion is:
+Ensure only one process enters Critical Section at a timeEnsure\ only\ one\ process\ enters\ Critical\ Section\ at\ a\ timeEnsure only one process enters Critical Section at a time
+using a unique token.
+
+Basic Concept
+Processes are arranged logically in a ring.
+One special message called:
+TOKEN
+circulates continuously.
+Only the process holding the token can enter the Critical Section.
+
+Important Terms
+Critical Section (CS)
+Part of the program where shared resources are accessed.
+Example:
+database update,
+printer usage,
+shared file access.
+
+Token
+A special permission object.
+If process has token:
+Can enter CS
+If process does not have token:
+Cannot enter CS
+
+Ring Structure
+Process1 → Process2 → Process3 → ... → Process1
+Token continuously circulates.
+
+Step-by-Step Working of Your Program
+Your program contains:
+ProcessOne
+ProcessTwo
+
+Step 1 — ProcessTwo Starts First
+java ProcessTwo
+ProcessTwo creates server socket:
+ServerSocket server = new ServerSocket(6002);
+Meaning:
+ProcessTwo waits for token.
+Output:
+Process 2: Waiting for token from Process 1
+
+Step 2 — ProcessOne Starts
+java ProcessOne
+ProcessOne creates token:
+String token = "TOKEN";
+Initially:
+ProcessOne owns token
+
+Step 3 — ProcessOne Enters Critical Section
+Since token is available:
+Process 1: Token present, entering Critical Section
+
+Step 4 — ProcessOne Executes Work
+Thread.sleep(2000);
+Simulates execution inside Critical Section.
+
+Step 5 — ProcessOne Passes Token
+ProcessOne connects to ProcessTwo:
+Socket socket = new Socket(machine2IP, 6002);
+Then sends token:
+out.writeUTF(token);
+
+Step 6 — ProcessTwo Receives Token
+String token = in.readUTF();
+Now ProcessTwo owns token.
+
+Step 7 — ProcessTwo Enters Critical Section
+Condition check:
+if(token.equals("TOKEN"))
+Since token is valid:
+Process 2: Token received, entering Critical Section
+
+Step 8 — ProcessTwo Executes Work
+Thread.sleep(2000);
+Represents Critical Section execution.
+
+Step 9 — ProcessTwo Returns Token
+out.writeUTF(token);
+Token sent back.
+
+Step 10 — ProcessOne Receives Token Back
+token = in.readUTF();
+Output:
+Token received back, ring complete
+Cycle completes.
+
+Final Working Flow
+ProcessOne gets token        ↓Enters Critical Section        ↓Passes token        ↓ProcessTwo receives token        ↓Enters Critical Section        ↓Returns token        ↓Ring completes
+
+Why Mutual Exclusion Is Achieved?
+Because:
+Only one token existsOnly\ one\ token\ existsOnly one token exists
+Therefore:
+only one process can possess token,
+only one process enters CS.
+
+Why Deadlock Does Not Occur?
+Because:
+processes do not compete simultaneously,
+access depends only on token possession.
+
+What Happens If Token Is Lost?
+If token is lost:
+no process can enter Critical Section,
+system halts.
+This is called:
+token loss problem
+Important Viva Questions with Answers
+
+1. What is Mutual Exclusion?
+Answer:
+Mutual exclusion ensures only one process accesses a shared resource at a time.
+
+2. What is Token Ring Algorithm?
+Answer:
+Token Ring is a distributed mutual exclusion algorithm where a unique token circulates among processes arranged logically in a ring.
+
+3. What is the purpose of the token?
+Answer:
+Token acts as permission to enter the Critical Section.
+
+4. Why is only one process allowed in Critical Section?
+Answer:
+One Token ⇒ One Process in CSOne\ Token\ \Rightarrow\ One\ Process\ in\ CSOne Token ⇒ One Process in CS
+Because only one token exists.
+
+5. What is Critical Section?
+Answer:
+Critical Section is the part of code where shared resources are accessed.
+
+6. What topology is used in Token Ring Algorithm?
+Answer:
+Logical ring topology.
+
+7. Why does ProcessTwo start first in your program?
+Answer:
+Because ProcessTwo waits for incoming token connection using:
+server.accept()
+Receiver must start before sender.
+
+8. What happens if token is lost?
+Answer:
+No process can enter Critical Section and the system stops.
+
+9. What is starvation?
+Answer:
+Starvation occurs when a process waits indefinitely for resource access.
+Token Ring prevents starvation because token circulates fairly.
+
+10. What is deadlock?
+Answer:
+Deadlock occurs when processes wait forever for resources held by each other.
+
+11. Why is Token Ring considered fair?
+Answer:
+Because every process eventually receives the token.
+
+12. What are the advantages of Token Ring Algorithm?
+Answer:
+Guaranteed mutual exclusion
+Fair access
+No starvation
+Simple implementation
+
+13. What are the disadvantages of Token Ring Algorithm?
+Answer:
+Token loss problem
+Ring failure affects communication
+Delay in token circulation
+
+14. What communication mechanism is used in your program?
+Answer:
+Socket programming using:
+ServerSocket
+Socket
+
+15. What is the role of Thread.sleep()?
+Answer:
+It simulates execution inside the Critical Section.
+
+16. Why is token uniqueness important?
+Answer:
+Token uniqueness guarantees only one process accesses the shared resource.
+
+17. Can multiple processes enter CS simultaneously?
+Answer:
+No, because only one token exists.
+
+18. What is logical ring structure?
+Answer:
+Processes are logically connected in circular sequence for token passing.
+
+19. Is Token Ring centralized or decentralized?
+Answer:
+Decentralized, because no central coordinator controls access.
+
+20. Main goal of Token Ring Mutual Exclusion?
+Answer:
+Safe access to shared resources in distributed systemsSafe\ access\ to\ shared\ resources\ in\ distributed\ systemsSafe access to shared resources in distributed systems

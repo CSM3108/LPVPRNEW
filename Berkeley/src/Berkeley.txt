@@ -1,0 +1,185 @@
+Berkeley
+
+1. What is Berkeley Algorithm?
+Answer:
+Berkeley Algorithm is a clock synchronization algorithm used in distributed systems to synchronize the clocks of multiple machines connected in a network.
+It uses:
+one master machine (Time Daemon),
+multiple slave machines.
+The master calculates an average time and sends adjustment values (offsets) to all slaves.
+Complete Working of Berkeley Algorithm
+Step-by-Step Working
+
+Step 1 — Master Polls All Slaves
+The Time Daemon (master) requests current time from all slave machines.
+Example:
+Master Time = 10:00:00
+Slave1 Time = 10:00:04
+Slave2 Time = 09:59:58
+Slave3 Time = 10:00:02
+
+Step 2 — Collect Clock Values
+Master receives all clock times.
+
+Step 3 — Calculate Average Time
+Formula:
+Average Time
+
+Step 4 — Calculate Offsets
+Master computes:
+Offset=Average Time−Local Time
+Example:
+Machine	Offset
+Master	+1 sec
+Slave1	-3 sec
+Slave2	+3 sec
+Slave3	-1 sec
+
+Step 5 — Send Offsets
+Master sends offset values to each slave.
+
+Step 6 — Adjust Clocks
+Each machine updates its clock using:
+New Time=Current Time+Offset
+All clocks become synchronized.
+Final Result
+All machines show approximately same time.
+
+2. What is the role of Time Daemon in Berkeley Algorithm?
+Answer:
+Time Daemon acts as the master server.
+Responsibilities:
+polls slave clocks,
+computes average time,
+calculates offsets,
+synchronizes all clocks.
+
+3. Why is clock synchronization required in distributed systems?
+Answer:
+Different machines have different clock timings due to clock drift.
+Synchronization is needed for:
+transaction ordering,
+logging,
+distributed databases,
+event coordination,
+consistency.
+
+4. What is clock drift?
+Answer:
+Clock drift is the gradual difference in time between clocks of different machines.
+
+5. How does Berkeley Algorithm differ from Cristian’s Algorithm?
+Berkeley Algorithm	Cristian’s Algorithm
+Uses average time	Uses UTC server time
+Internal synchronization	External synchronization
+Master computes average	Client synchronizes with server
+
+6. Is Berkeley Algorithm centralized or decentralized?
+Answer:
+It is a centralized algorithm because synchronization is controlled by one master machine.
+
+7. Does Berkeley Algorithm use UTC time?
+Answer:
+No.
+It uses internally calculated average time instead of UTC.
+
+8. What happens if the master machine fails?
+Answer:
+Synchronization stops because the algorithm depends entirely on the master.
+This is called:
+single point of failure
+
+9. What is offset in Berkeley Algorithm?
+Answer:
+Offset is the amount of adjustment required to synchronize a machine’s clock.
+Formula:
+Offset=Average Time−Current Time
+
+11. Why are network delays important in clock synchronization?
+Answer:
+Network delays affect accuracy because message transmission takes time between machines.
+
+12. What are the advantages of Berkeley Algorithm?
+Answer:
+Simple implementation
+Efficient for LANs
+Internal synchronization
+No external UTC required
+
+13. What are the disadvantages of Berkeley Algorithm?
+Answer:
+Single point of failure
+Depends on master
+Sensitive to network delay
+Less accurate over WAN
+
+14. What is synchronization accuracy?
+Answer:
+Synchronization accuracy refers to how closely all machine clocks match after synchronization.
+
+15. Explain the Master process in your program.
+Answer:
+The Master:
+Starts server socket
+Waits for slave connection
+Receives slave time
+Computes average time
+Calculates offsets
+Sends offset to slave
+Displays synchronized times
+
+16. Explain the Slave process in your program.
+Answer:
+The Slave:
+Connects to master
+Sends local clock time
+Receives synchronization offset
+Adjusts local clock
+Displays updated synchronized time
+
+17. Why is System.currentTimeMillis() used?
+Answer:
+It returns the current system time in milliseconds since January 1, 1970 (Epoch time).
+
+18. What communication model is used in your program?
+Answer:
+Client-server communication using sockets.
+
+19. Which socket classes are used?
+Answer:
+Class	Purpose
+ServerSocket	Server listens for connections
+Socket	Client connects to server
+
+20. What type of synchronization is achieved in Berkeley Algorithm?
+Answer:
+Internal synchronization, because all machines synchronize relative to each other rather than an external UTC source.
+
+21. Can Berkeley Algorithm work on multiple machines?
+Answer:
+Yes.
+It is designed for distributed systems with multiple network-connected machines.
+
+22. Why is Berkeley Algorithm suitable for LAN environments?
+Answer:
+Because LANs have:
+low latency,
+smaller network delays,
+better synchronization accuracy.
+
+23. What is the main goal of Berkeley Algorithm?
+Answer:
+Maintain consistent time across distributed systems
+
+24. What are real-world applications of clock synchronization?
+Answer:
+Distributed databases
+Banking systems
+Cloud computing
+Distributed transactions
+Event ordering systems
+Logging systems
+
+25. Why is Berkeley Algorithm important in Distributed Systems?
+Answer:
+It ensures all machines maintain coordinated time, which is essential for consistency, synchronization, and correct event ordering in distributed environments.

@@ -1,0 +1,158 @@
+Bully Algorithm
+
+1. What is Bully Algorithm?
+Answer:
+Bully Algorithm is a distributed leader election algorithm used to elect a coordinator in distributed systems.
+The process with the highest process ID becomes the coordinator.
+
+2. Why is it called Bully Algorithm?
+Answer:
+It is called Bully Algorithm because the process with the highest priority (highest ID) dominates all lower-priority processes and becomes the leader.
+
+3. What is the main objective of Bully Algorithm?
+Answer:
+Elect a Coordinator in Distributed Systems
+when the current coordinator fails.
+Complete Step-by-Step Working of Bully Algorithm
+
+Step 1 — Initial State
+All processes have:
+unique IDs,
+knowledge about other process IDs.
+Example:
+P1 P2 P3 P4 P5
+Highest process ID acts as coordinator.
+Example:
+P5 = Coordinator
+
+Step 2 — Coordinator Failure
+Suppose:
+P5 crashes
+Another process detects coordinator failure.
+Example:
+P2 detects failure
+
+Step 3 — Election Starts
+P2 sends:
+Election Messages
+to all higher-ID processes:
+P3 P4 P5
+
+Step 4 — Higher Processes Reply
+Alive higher processes send:
+OK Message
+Meaning:
+"I am alive and will take over election."
+Example:
+P3 → OK
+P4 → OK
+
+Step 5 — Higher Process Starts New Election
+Now P4 starts its own election and sends messages to:
+P5
+But P5 is crashed.
+
+Step 6 — No Higher Response
+Since no higher process responds:
+P4 becomes coordinator
+
+Step 7 — Coordinator Announcement
+P4 sends:
+Coordinator Message
+to all processes.
+Now:
+P4 = New Coordinator
+Final Working Flow
+Coordinator crashes
+        ↓
+Lower process detects failure
+        ↓
+Election messages sent to higher processes
+        ↓
+Higher alive process replies OK
+        ↓
+Highest alive process becomes coordinator
+        ↓
+Coordinator message broadcasted
+
+4. What is Election Message?
+Answer:
+Election message is sent to higher-ID processes to check whether they are alive.
+
+5. What is OK Message?
+Answer:
+OK message indicates:
+"I am alive and have higher priority."
+
+6. Which process becomes coordinator?
+Answer:
+Highest Alive Process ID
+becomes coordinator.
+
+7. Who initiates election?
+Answer:
+The process that detects coordinator failure initiates election.
+
+8. What happens if no higher process responds?
+Answer:
+The current process declares itself as coordinator.
+
+9. What is the time complexity of Bully Algorithm?
+Answer:
+O(n2)
+because many election and response messages may be exchanged.
+
+10. Why is time complexity high in Bully Algorithm?
+Answer:
+Because multiple processes may independently start elections and exchange many messages.
+
+11. What are the advantages of Bully Algorithm?
+Answer:
+Fast coordinator selection
+Simple implementation
+Highest priority process becomes leader
+
+12. What are the disadvantages of Bully Algorithm?
+Answer:
+Large number of messages
+High communication overhead
+Inefficient for large systems
+
+13. What happens if the coordinator crashes again?
+Answer:
+Another election process starts automatically.
+
+14. What assumptions does Bully Algorithm make?
+Answer:
+Every process has unique ID
+Every process knows all other process IDs
+Processes can communicate directly
+
+15. Is Bully Algorithm centralized or decentralized?
+Answer:
+Election process is decentralized, but finally one centralized coordinator is elected.
+
+16. Why does highest process ID become coordinator?
+Answer:
+Higher ID represents higher priority and authority.
+
+17. What is coordinator in distributed systems?
+Answer:
+Coordinator is the leader process responsible for managing distributed activities.
+
+18. Can two coordinators exist simultaneously?
+Answer:
+No.
+Bully Algorithm ensures only one highest alive process becomes coordinator.
+
+19. Why is Bully Algorithm important?
+Answer:
+It ensures fault tolerance by electing a new coordinator when the current one fails.
+
+20. Applications of Bully Algorithm?
+Answer:
+Distributed databases
+Cluster management
+Distributed operating systems
+Resource allocation systems
+Fault-tolerant systems

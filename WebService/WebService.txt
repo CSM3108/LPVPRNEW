@@ -1,0 +1,217 @@
+WebService
+
+Web Service Viva Questions with Answers
+1. What is a Web Service?
+Answer:
+A web service is a software application that enables communication between client and server over a network using HTTP protocol.
+It allows:
+data exchange,
+remote service access,
+client-server interaction.
+Complete Working of Your Web Service Program
+
+Step 1 — Start Server
+Server creates HTTP server:
+HttpServer.create(new InetSocketAddress(8000), 0);
+Meaning:
+server starts on port:
+8000
+
+Step 2 — Create URL Context
+server.createContext("/hello", new HelloHandler());
+This means:
+whenever client accesses:
+/hello
+request is handled by:
+HelloHandler
+
+Step 3 — Server Starts Listening
+server.start();
+Server waits for incoming HTTP requests.
+
+Step 4 — Client Takes User Input
+Client asks:
+Enter Name:
+Example:
+Chetan
+
+Step 5 — Client Creates URL
+http://localhost:8000/hello?name=Chetan
+URL Breakdown
+Part	Meaning
+http://	Protocol
+localhost	Same machine
+8000	Port number
+/hello	Service path
+?name=Chetan	Query parameter
+
+Step 6 — Client Sends GET Request
+con.setRequestMethod("GET");
+GET request is sent to server.
+
+Step 7 — Server Receives Request
+HelloHandler automatically handles request.
+handle(HttpExchange exchange)
+
+Step 8 — Extract Query Parameter
+exchange.getRequestURI().getQuery()
+Gets:
+name=Chetan
+
+Step 9 — Extract Username
+query.split("=")[1]
+Result:
+Chetan
+Step 10 — Create Response
+"Hello " + name
+utput:
+Hello Chetan
+
+Step 11 — Send Response
+exchange.sendResponseHeaders(200, response.length());
+Status:
+200 = Success
+
+Step 12 — Client Receives Response
+Client reads response using:
+BufferedReader
+
+Displays:
+Hello Chetan
+Final Flow Diagram
+Client enters name
+        ↓
+Client creates URL
+        ↓
+HTTP GET request sent
+        ↓
+Server receives request
+        ↓
+Handler processes request
+        ↓
+Server creates response
+        ↓
+Response sent back
+        ↓
+Client displays output
+
+2. What protocol is used in your web service?
+Answer:
+HTTP (HyperText Transfer Protocol).
+
+3. What is HTTP?
+Answer:
+HTTP is a communication protocol used for client-server communication on the web.
+
+4. What is the role of Client in your program?
+Answer:
+Client:
+sends HTTP request,
+consumes web service,
+receives response from server.
+
+5. What is the role of Server?
+Answer:
+Server:
+receives requests,
+processes data,
+sends responses back to client.
+
+6. What is HttpServer?
+Answer:
+HttpServer is a Java class used to create lightweight HTTP web servers.
+
+7. What is HttpHandler?
+Answer:
+HttpHandler processes incoming HTTP requests.
+
+8. What is HttpExchange?
+Answer:
+HttpExchange represents:
+HTTP request,
+HTTP response
+between client and server.
+
+9. What is a URL?
+Answer:
+URL (Uniform Resource Locator) is the address used to access web services.
+Example:
+http://localhost:8000/hello
+
+10. What are Query Parameters?
+Answer:
+Query parameters are values passed in URL.
+Example:
+?name=Chetan
+
+11. What is GET request?
+Answer:
+GET is an HTTP method used to retrieve data from server.
+
+12. Why is GET used in your program?
+Answer:
+Because client only requests data and does not modify server data.
+
+13. What does status code 200 mean?
+Answer:
+200 = HTTP Success Response
+
+14. What is localhost?
+Answer:
+localhost refers to the same machine on which server is running.
+
+15. What is Port Number?
+Answer:
+Port number identifies a specific network service.
+Example:
+8000
+
+16. Why does server run before client?
+Answer:
+Because client must connect to an active running server.
+
+17. What is the purpose of BufferedReader?
+Answer:
+Used to read response data from server efficiently.
+
+18. What is the purpose of OutputStream in server?
+Answer:
+Used to send response data back to client.
+
+19. Difference between GET and POST?
+GET	POST
+Data in URL	Data in body
+Used for retrieval	Used for submission
+Less secure	More secure
+
+20. What are the advantages of Web Services?
+Answer:
+Platform independent
+Language independent
+Easy communication
+Reusable services
+Network accessibility
+
+21. What are the disadvantages of Web Services?
+Answer:
+Network dependency
+Security concerns
+Slower than local calls
+Requires server availability
+
+22. How can Calculator Web Service work?
+Answer:
+Client sends:
+numbers + operation
+Server performs calculation and returns result.
+
+24. How does Miles to Kilometer service work?
+Answer:
+Formula:
+Kilometers=Miles×1.609
+Client sends miles.
+Server returns kilometers.
+
+25. Main goal of Web Services?
+Answer:
+Enable Communication Between Distributed Applications

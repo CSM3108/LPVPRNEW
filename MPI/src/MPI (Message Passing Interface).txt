@@ -1,0 +1,193 @@
+MPI (Message Passing Interface)
+
+===============================================
+
+MPI is a message-passing standard used for communication between multiple processes in distributed systems. Each process has a unique rank and communicates using operations like send, receive, scatter, and gather.
+
+1. Multiple processes start
+2. Each process gets a unique rank (ID)
+3. Processes communicate using:
+- Send : One process sends data to another
+- Receive : One process receives data
+- Scatter : One process receives data
+- Gather : Divide data → distribute to all processes
+4. Each process computes independently
+5. Results are combined
+
+
+Code :
+1. MPI.Init() : starts the mpi env, creates processes
+2. rank = MPI.COMM_WORLD.Rank(), size = MPI.COMM_WORLD.Size() : gets rank (id) of each process and total number of processes (-np)
+3. MPI.Finalize() : cleans up resources, terminates processes
+4. Collective Functions :
+- Scatter(array_to_be_sent, send_offset, elements_per_process, data_type (MPI.INT), recv_array_of_non_root_process, recv_offset, size, data_type, root_rank)
+- Gather(data_sent_by_non_root, offset, size_sent, type, array_used_at_root_for_rev, offset, size, type, root_rank)
+
+
+Commands for running :
+
+1. javac -cp %MPJ_HOME%\lib\mpj.jar Main.java
+Compiles, using mpj.jar, jar should be added to the module
+path and MPJ_HOME should be present
+-cp tells the classpath for required external libraries
+
+javac -cp .:$MPJ_HOME/lib/mpj.jar Main.java
+mpjrun.sh -np 4 Main
+Running MPI on Linux, use mpjrun.bat on windows and mpjrun.sh on Linux
+MPI program jar aala tar pahile library installed aahe ki nahi te check karaycha, hi command takun : 
+Verify installation : 
+> mpjrun.sh
+
+2. mpjrun.bat -np 4 Main
+creates 4 processes executing Main class
+
+
+Notes : 
+- Each processes executes the whole main class, they are parallel processes.
+- The Scatter and Gather operations are blocking, they are only executed once every process reaches it. 
+- All processes participate in Scatter and Gather, but the role of root and others is different
+- Only root sends data in Scatter and others receive and vice versa for Gather.
+- Main process is root process and others are worker processes
+
+
+1. What is MPI?
+Answer:
+MPI (Message Passing Interface) is a communication protocol used for parallel and distributed computing where multiple processes communicate by sending messages.
+
+2. What is the purpose of MPI?
+Answer:
+MPI is used to:
+perform parallel processing,
+improve computation speed,
+distribute tasks among multiple processes.
+
+3. What is MPJ Express?
+Answer:
+MPJ Express is a Java implementation of MPI used for parallel programming in Java.
+
+4. What is parallel computing?
+Answer:
+Parallel computing is the execution of multiple tasks simultaneously using multiple processors or processes.
+
+5. Difference between parallel computing and distributed computing?
+Parallel Computing	Distributed Computing
+Tasks execute simultaneously	Systems communicate over network
+Focus on speed	Focus on resource sharing
+Usually same system	Multiple machines
+
+6. What is a process in MPI?
+Answer:
+A process is an independent execution unit running a copy of the MPI program.
+
+7. What is Rank in MPI?
+Answer:
+Rank is the unique ID assigned to each MPI process.
+Example:
+0,1,2,3
+
+8. What is the use of MPI.Init()?
+Answer:
+MPI.Init() initializes the MPI execution environment before communication begins.
+
+9. What is the use of MPI.Finalize()?
+Answer:
+MPI.Finalize() terminates the MPI environment and releases resources.
+
+10. What is COMM_WORLD?
+Answer:
+COMM_WORLD is the default communicator containing all MPI processes.
+
+11. What does Rank() return?
+Answer:
+Rank() returns the unique process number of the current process.
+Example:
+0,1,2,3
+
+12. What does Size() return?
+Answer:
+Size() returns the total number of processes participating in execution.
+
+13. What is Scatter operation?
+Answer:
+Scatter distributes parts of data from one root process to all other processes.
+
+14. What is Gather operation?
+Answer:
+Gather collects data from all processes and sends it back to the root process.
+
+15. Difference between Scatter and Gather?
+Scatter	Gather
+Distributes data	Collects data
+One → Many	Many → One
+
+16. What is a root process?
+Answer:
+The root process is the main controlling process, usually rank 0.
+
+17. Why is MPI faster?
+Answer:
+MPI divides work among multiple processes, reducing execution time through parallelism.
+
+18. What is message passing?
+Answer:
+Message passing is the technique of communication where processes exchange data using messages.
+
+19. What are the advantages of MPI?
+Answer:
+High performance
+Scalability
+Parallel execution
+Efficient communication
+Suitable for distributed systems
+
+20. What are the disadvantages of MPI?
+Answer:
+Complex programming
+Debugging difficulty
+Synchronization issues
+Communication overhead
+
+21. What is the purpose of mpj.jar?
+Answer:
+mpj.jar contains MPI classes and methods required for MPI programming in Java.
+
+22. Why do we use -cp while compiling?
+Answer:
+-cp specifies the classpath containing external libraries like mpj.jar.
+
+23. What does -np 4 mean?
+Answer:
+Number of Processes=4
+It creates 4 parallel MPI processes.
+
+24. Why use mpjrun.bat instead of java?
+Answer:
+MPI programs require MPI runtime support and multiple processes, which java alone cannot provide.
+
+25. What is synchronization in MPI?
+Answer:
+Synchronization ensures processes execute coordinated operations without conflicts.
+
+26. Explain the workflow of an MPI program.
+Answer:
+Initialize MPI
+Create processes
+Distribute data
+Perform local computation
+Exchange results
+Finalize MPI
+
+27. What is the difference between RMI and MPI?
+RMIMPIRemote method callingMessage passingObject-orientedProcess-orientedDistributed systemsParallel computingEasierMore performance-oriented
+
+28. Can MPI run on multiple machines?
+Answer:
+Yes. MPI can run across multiple networked machines in a distributed environment.
+
+29. What happens if MPI.Init() is not called?
+Answer:
+MPI environment will not initialize and MPI functions will fail.
+
+30. What is load balancing in MPI?
+Answer:
+Load balancing means distributing work evenly among processes to improve performance.

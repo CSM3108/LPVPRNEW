@@ -1,0 +1,148 @@
+RMI
+
+Server Side 
+1. Create remote interface
+2. Implement interface
+3. Create registry
+4. Bind remote object
+5. Start server
+
+Client Side
+1. Connect to registry
+2. Lookup remote object
+3. Call remote methods
+4. Receive result
+
+1. What is RMI?
+Answer:
+RMI (Remote Method Invocation) is a Java technology that allows a program running on one machine to invoke methods of an object running on another machine.
+
+2. What is the use of RMI in Distributed Systems?
+Answer:
+RMI enables communication between distributed applications over a network and allows remote execution of methods.
+
+3. What are the main components of RMI?
+Answer:
+The main components are:
+Remote Interface
+Remote Object (Implementation Class)
+RMI Registry
+Client Application
+Server Application
+
+4. What is a Remote Interface?
+Answer:
+A Remote Interface contains method declarations that can be called remotely by the client.
+Example:
+public interface ServerInterface extends Remote
+
+5. Why does the interface extend Remote?
+Answer:
+The Remote interface marks the methods as remotely accessible methods.
+
+6. Why do remote methods throw RemoteException?
+Answer:
+Remote communication may fail due to:
+network issues,
+server failure,
+connection problems.
+Hence RemoteException is required for handling communication errors.
+
+7. What is RMI Registry?
+Answer:
+RMI Registry is a naming service that stores remote objects so that clients can locate them using names.
+
+8. What is the default port number of RMI Registry?
+Answer:
+1099
+
+9. What is Stub in RMI?
+Answer:
+Stub is the client-side proxy object that represents the remote object locally.
+The client calls methods on the stub, and the stub communicates with the server.
+
+10. What is Skeleton in RMI?
+Answer:
+Skeleton is the server-side object that receives requests from the stub and forwards them to the actual remote object.
+(In modern Java, skeleton generation is automatic.)
+
+11. What is the purpose of UnicastRemoteObject?
+Answer:
+UnicastRemoteObject exports the remote object so it can receive remote method calls from clients.
+
+12. What is object binding in RMI?
+Answer:
+Binding means registering the remote object with the RMI Registry using a unique name.
+Example:
+registry.rebind("OperationService", obj);
+
+13. Difference between bind() and rebind()?
+bind()	rebind()
+Fails if name exists	Replaces existing object
+Used first time	Used for updating
+
+14. What is a distributed system?
+Answer:
+A distributed system is a collection of independent computers that work together and appear as a single system to the user.
+
+15. Difference between Socket Programming and RMI?
+Socket Programming	RMI
+Low-level communication	High-level communication
+Manual data handling	Direct method calling
+More coding	Easier implementation
+
+16. What protocol does RMI use?
+Answer:
+RMI uses:
+JRMP (Java Remote Method Protocol)
+
+17. Can RMI work on different machines?
+Answer:
+Yes.
+Client and server can run on different machines connected through a network.
+
+18. What is the role of lookup() in RMI?
+Answer:
+lookup() searches and retrieves the remote object from the RMI Registry.
+Example:
+registry.lookup("OperationService");
+
+19. What is marshalling and unmarshalling?
+Answer:
+Marshalling: Converting object/data into stream form for transmission.
+Unmarshalling: Reconstructing the object/data at the receiving side.
+
+20. Is RMI multi-threaded?
+Answer:
+Yes.
+RMI internally creates separate threads to handle multiple client requests simultaneously.
+
+21. What are the advantages of RMI?
+Answer:
+Easy distributed computing
+Object-oriented communication
+Supports remote method calling
+Platform independent
+Simplifies network programming
+
+22. What are the disadvantages of RMI?
+Answer:
+Slower than local calls
+Java dependent
+Network overhead
+Security concerns
+
+23. Explain the working of your RMI program.
+Answer:
+Server creates remote object
+Server registers object in RMI Registry
+Client connects to registry
+Client looks up remote object
+Client invokes remote methods
+Server processes request and returns result
+
+24. What is the purpose of LocateRegistry.createRegistry()?
+Answer:
+It creates and starts the RMI Registry programmatically.
+Example:
+LocateRegistry.createRegistry(1099);
